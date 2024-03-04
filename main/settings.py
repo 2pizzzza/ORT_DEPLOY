@@ -27,7 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['breaddev.pythonanywhere.com',
                  '127.0.0.1',
-                 "192.168.0.107"
+                 "192.168.0.107",
+                 "ort-deploy.onrender.com"
                  ]
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000"
