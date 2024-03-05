@@ -45,6 +45,9 @@ class LoginAPIView(generics.CreateAPIView):
             {
                 'message': 'Пользователь успешно вошел в систему',
                 'access_token': str(AccessToken.for_user(user)),
+                'firstname': str(user.firstname),
+                'lastname': str(user.lastname),
+                'email': str(user.email),
                 'refresh_token': str(RefreshToken.for_user(user)),
             }, status=status.HTTP_200_OK
         )
