@@ -12,6 +12,10 @@ class TestCreateAPIView(generics.CreateAPIView):
     serializer_class = s.TestSerializer
     permission_classes = [p.IsTeacher]
 
+    def perform_create(self, serializer):
+        serializer.save()
+        return serializer.instance
+
 
 class TestListAPIView(generics.ListAPIView):
     serializer_class = s.TestSerializer

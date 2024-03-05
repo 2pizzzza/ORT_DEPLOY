@@ -48,6 +48,7 @@ class LoginAPIView(generics.CreateAPIView):
                 'firstname': str(user.firstname),
                 'lastname': str(user.lastname),
                 'email': str(user.email),
+                'role': str(user.role),
                 'refresh_token': str(RefreshToken.for_user(user)),
             }, status=status.HTTP_200_OK
         )
