@@ -4,14 +4,13 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 from . import models as m, serializers as s
-from users import permissions as up
+from users import permissions as p
 from .models import TestUser
-from .serializers import TestUserSerializer
 
 
 class TestCreateAPIView(generics.CreateAPIView):
     serializer_class = s.TestSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [p.IsTeacher]
 
 
 class TestListAPIView(generics.ListAPIView):
@@ -47,7 +46,7 @@ class TestDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 class TestUserCreateAPIView(generics.CreateAPIView):
     queryset = m.TestUser.objects.all()
     serializer_class = s.TestUserSerializerForSubmit
-    permission_classes = [up.IsStudent, IsAuthenticated]
+    permission_classes = [p.IsStudent, IsAuthenticated]
 
     def perform_create(self, serializer):
         user = self.request.user

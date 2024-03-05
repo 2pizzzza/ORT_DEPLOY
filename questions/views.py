@@ -1,11 +1,12 @@
 from rest_framework import generics, permissions
 
 from . import models as m, serializers as s
+from users import permissions as p
 
 
 class QuestionCreateAPIView(generics.CreateAPIView):
     serializer_class = s.QuestionSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [p.IsTeacher]
 
 
 class QuestionListAPIView(generics.ListAPIView):
@@ -25,7 +26,7 @@ class QuestionDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 class AnswerCreateAPIView(generics.CreateAPIView):
     serializer_class = s.AnswerSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [p.IsTeacher]
 
 
 class AnswerListAPIView(generics.ListAPIView):
