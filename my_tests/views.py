@@ -28,11 +28,13 @@ class TestListAPIView(generics.ListAPIView):
         tests = m.Test.objects.filter(course=course_id)
         user = request.user
 
-        for test in tests:
-            if m.TestUser.objects.filter(test=test, user=user).exists():
-                return Response({'message': 'вы уже прошли этот тест'})
+        # Get the tests that the user has not finished
+        unfinished_tests = [
+            test for test in tests
+            if not m.TestUser.objects.filter(test=test, user=user).exists()
+        ]
 
-        serializer = self.get_serializer(tests, many=True)
+        serializer = self.get_serializer(unfinished_tests, many=True)
         return Response(serializer.data)
 
 
