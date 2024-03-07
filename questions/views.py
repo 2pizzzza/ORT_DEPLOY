@@ -27,6 +27,9 @@ class QuestionDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 class AnswerCreateAPIView(generics.CreateAPIView):
     serializer_class = s.AnswerSerializer
     permission_classes = [p.IsTeacher]
+    def perform_create(self, serializer):
+        serializer.save()
+        return serializer.instance
 
 
 class AnswerListAPIView(generics.ListAPIView):
