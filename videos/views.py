@@ -5,7 +5,7 @@ from . import serializers as s, models as m
 
 class VideoCreateAPIView(generics.CreateAPIView):
     serializer_class = s.VideoSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.IsTeacher]
 
 
 class VideoListAPIView(generics.ListAPIView):
