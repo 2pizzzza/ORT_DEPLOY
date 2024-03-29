@@ -1,11 +1,11 @@
 from rest_framework import generics, permissions
 
 from . import models as m, serializers as s
-
+from users import permissions as p
 
 class CourseCreateAPIView(generics.CreateAPIView):
     serializer_class = s.CourseSerializer
-    permission_classes = [permissions.IsTeacher]
+    permission_classes = [p.IsTeacher]
 
 
 class CourseListAPIView(generics.ListAPIView):

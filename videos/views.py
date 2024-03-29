@@ -1,11 +1,11 @@
 from rest_framework import generics, permissions
-
+from users import permissions as p
 from . import serializers as s, models as m
 
 
 class VideoCreateAPIView(generics.CreateAPIView):
     serializer_class = s.VideoSerializer
-    permission_classes = [permissions.IsTeacher]
+    permission_classes = [p.IsTeacher]
 
 
 class VideoListAPIView(generics.ListAPIView):
