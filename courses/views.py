@@ -5,7 +5,7 @@ from . import models as m, serializers as s
 
 class CourseCreateAPIView(generics.CreateAPIView):
     serializer_class = s.CourseSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.IsTeacher]
 
 
 class CourseListAPIView(generics.ListAPIView):
