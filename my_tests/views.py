@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -60,31 +61,44 @@ class TestUserCreateAPIView(generics.CreateAPIView):
         data = request.data
         data['user'] = request.user.id
 
-        r_answers = data['right_answers']
-        test = m.Test.objects.filter(pk=data['test']).first()
-        questions = test.questions.count()
+        # Получаем объект пользователя
+        user = request.user
 
-        if self.queryset.filter(user=request.user.id, test=data['test']).exists():
+        # Получаем объект теста
+        test = get_object_or_404(m.Test, pk=data['test'])
+
+        # Проверяем, смотрел ли пользователь видео и соответствует ли тест из видео переданному тесту
+        if user in test.video.user_watched.all() and test == test.video.test:
+            r_answers = data['right_answers']
+            questions = test.questions.count()
+
+            if self.queryset.filter(user=user, test=test).exists():
+                return Response(
+                    {'message': 'Вы уже проходили этот тест'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            if r_answers > questions:
+                return Response(
+                    {'message': 'Количество вопросов меньше '
+                        'общего количества переданных ответов'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            serializer = self.get_serializer(data=data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+
             return Response(
-                {'message': 'Вы уже проходили этот тест'},
+                {'message': 'Вы сдали тест', **serializer.data},
+                status=status.HTTP_200_OK
+            )
+        else:
+            return Response(
+                {'message': 'Вы не можете пройти этот тест. '
+                            'Вам нужно сначала посмотреть видео и соответствующий тест.'},
                 status=status.HTTP_400_BAD_REQUEST
             )
-
-        if r_answers > questions:
-            return Response(
-                {'message': 'Количество вопросов меньше '
-                    'общего количества переданных ответов'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        serializer = self.get_serializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(
-            {'message': 'Вы сдали тест', **serializer.data},
-            status=status.HTTP_200_OK
-        )
 
 
 class TestUserListAPIView(generics.ListAPIView):

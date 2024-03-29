@@ -1,11 +1,26 @@
 from rest_framework import generics, permissions
+from rest_framework.generics import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+
 from users import permissions as p
 from . import serializers as s, models as m
+from .models import Video
 
 
 class VideoCreateAPIView(generics.CreateAPIView):
     serializer_class = s.VideoSerializer
     permission_classes = [p.IsTeacher]
+
+
+class AddUserToWatchedVideo(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, video_id):
+        video = get_object_or_404(Video, pk=video_id)
+        user = request.user
+        video.user_watched.add(user)
+        return Response("User added to watched list for this video.")
 
 
 class VideoListAPIView(generics.ListAPIView):
