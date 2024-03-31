@@ -30,11 +30,17 @@ class VideoListAPIView(generics.ListAPIView):
     def get_queryset(self):
         course_id = self.kwargs.get('pk')
         user = self.request.user
-        user_tests = TestUser.objects.filter(user=user, test__course=course_id)
-        passed_test_ids = user_tests.values_list('test_id', flat=True)
-        queryset = m.Video.objects.filter(course=course_id)
-        queryset = queryset.exclude(test_id__in=passed_test_ids)
+
+        if user.is_authenticated:
+            user_tests = TestUser.objects.filter(user=user, test__course=course_id)
+            passed_test_ids = user_tests.values_list('test_id', flat=True)
+            queryset = m.Video.objects.filter(course=course_id)
+            queryset = queryset.exclude(test_id__in=passed_test_ids)
+        else:
+            queryset = m.Video.objects.filter(course=course_id)
+
         return queryset
+
 
 
 class VideoDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
