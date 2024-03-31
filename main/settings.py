@@ -31,10 +31,11 @@ ALLOWED_HOSTS = ['breaddev.pythonanywhere.com',
                  '127.0.0.1',
                  "192.168.0.107",
                  "ort-deploy.onrender.com",
-                 'easy-completely-whale.ngrok-free.app'
+                 'a80e-185-117-151-78.ngrok-free.app',
+                 'easy-completely-whale.ngrok-free.app',
                  ]
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000"
+    "http://localhost:3000",
 ]
 
 CSRF_TRUSTED_ORIGINS = ['https://easy-completely-whale.ngrok-free.app']
@@ -70,6 +71,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
 ]
 
 ROOT_URLCONF = 'main.urls'
@@ -99,6 +101,7 @@ AUTH_USER_MODEL = "users.User"
 DATABASES = {
     'default': dj_database_url.config(default='postgres://admin:KzudQ3uDEZWoGNNEAhtIWamS4XsVQB4n@dpg-co4he0n79t8c7392h8lg-a.oregon-postgres.render.com/ort_postgres')
 }
+
 
 
 REST_FRAMEWORK = {

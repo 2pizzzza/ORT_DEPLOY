@@ -1,12 +1,11 @@
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import permissions, generics, status, views
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 
-from rest_framework import permissions, generics, status, views
 from . import models as m, serializers as s
-from .models import User
+from .models import User, Profile
 from .permissions import IsTeacher
-from .serializers import UserSerializer
+from .serializers import UserSerializer, ProfileSerializer
 
 
 class RegisterAPIView(generics.CreateAPIView):
@@ -86,26 +85,41 @@ class LogoutAPIView(views.APIView):
 
 
 class ProfileCreateAPIView(generics.CreateAPIView):
-    serializer_class = s.ProfileSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
 
-    def post(self, request, *args, **kwargs):
-        data = request.data
-        data['user'] = request.user.id
+    def create(self, request, *args, **kwargs):
+        user_id = request.data.get('user')
 
-        serializer = self.get_serializer(data=data)
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        profile_data = {
+            "user": user.id,
+            "language": request.data.get('language'),
+            "_class": request.data.get('_class'),
+            "age": request.data.get('age'),
+            "gender": request.data.get('gender'),
+            "phone": request.data.get('phone'),
+            "school": request.data.get('school'),
+            "university": request.data.get('university'),
+            "specialization": request.data.get('specialization'),
+        }
+
+        serializer = self.get_serializer(data=profile_data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        self.perform_create(serializer)
 
-        return Response(
-            {**serializer.validated_data},
-            status=status.HTTP_201_CREATED
-        )
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 class StudentList(generics.ListAPIView):
     queryset = User.objects.filter(role='Студент')
     serializer_class = UserSerializer
     permission_classes = [IsTeacher]
+
 
 class ProfileDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = m.Profile.objects.all()
