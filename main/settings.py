@@ -33,10 +33,10 @@ ALLOWED_HOSTS = ['breaddev.pythonanywhere.com',
                  "ort-deploy.onrender.com",
                  'localhost',
                  ]
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    'https://ort-kappa.vercel.app'
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000",
+#     'https://ort-kappa.vercel.app'
+# ]
 
 CSRF_TRUSTED_ORIGINS = ['https://easy-completely-whale.ngrok-free.app']
 CORS_ORIGIN_ALLOW_ALL = True
