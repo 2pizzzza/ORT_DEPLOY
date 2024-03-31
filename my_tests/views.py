@@ -25,10 +25,6 @@ class TestListAPIView(generics.ListAPIView):
     def get_queryset(self):
         course_id = self.kwargs.get('pk')
         queryset = m.Test.objects.filter(course=course_id)
-
-        if self.request.user.is_authenticated:
-            user = self.request.user
-            queryset = queryset.exclude(testuser__user=user)
         return queryset
 
     def get(self, request, *args, **kwargs):
