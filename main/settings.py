@@ -31,11 +31,11 @@ ALLOWED_HOSTS = ['breaddev.pythonanywhere.com',
                  '127.0.0.1',
                  "192.168.0.107",
                  "ort-deploy.onrender.com",
-                 'a80e-185-117-151-78.ngrok-free.app',
-                 'easy-completely-whale.ngrok-free.app',
+                 'localhost',
                  ]
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    'https://ort-kappa.vercel.app'
 ]
 
 CSRF_TRUSTED_ORIGINS = ['https://easy-completely-whale.ngrok-free.app']
