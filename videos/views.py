@@ -3,6 +3,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from my_tests.models import TestUser
 from users import permissions as p
 from . import serializers as s, models as m
 from .models import Video
@@ -29,10 +30,10 @@ class VideoListAPIView(generics.ListAPIView):
     def get_queryset(self):
         course_id = self.kwargs.get('pk')
         user = self.request.user
+        user_tests = TestUser.objects.filter(user=user, test__course=course_id)
+        passed_test_ids = user_tests.values_list('test_id', flat=True)
         queryset = m.Video.objects.filter(course=course_id)
-
-        if user.is_authenticated:
-            queryset = queryset.exclude(test__testuser__user=user)
+        queryset = queryset.exclude(test_id__in=passed_test_ids)
         return queryset
 
 

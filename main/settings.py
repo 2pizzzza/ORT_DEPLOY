@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['breaddev.pythonanywhere.com',
                  '127.0.0.1',
                  "192.168.0.107",
                  "ort-deploy.onrender.com",
+                 'easy-completely-whale.ngrok-free.app'
                  ]
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000"
