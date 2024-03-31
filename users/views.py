@@ -91,7 +91,7 @@ class ProfileCreateAPIView(generics.CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         data = request.data
-        data['user'] = request.user
+        data['user'] = request.user.id
 
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
@@ -101,6 +101,7 @@ class ProfileCreateAPIView(generics.CreateAPIView):
             {**serializer.validated_data},
             status=status.HTTP_201_CREATED
         )
+
 class StudentList(generics.ListAPIView):
     queryset = User.objects.filter(role='Студент')
     serializer_class = UserSerializer

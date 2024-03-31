@@ -65,13 +65,14 @@ class Profile(models.Model):
     SEX = (
         ('Мужской', 'Мужской'),
         ('Женский', 'Женский'),
+        ('Другое', 'Другое'),
     )
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile', verbose_name='Пользователь')
     language = models.CharField(max_length=50, choices=LANGUAGES, verbose_name='Язык')
     _class = models.CharField(max_length=4, validators=[val.validate_class], verbose_name='Класс')
     age = models.PositiveIntegerField(verbose_name="Возраст")
-    sex = models.CharField(max_length=50, choices=SEX, verbose_name='Пол')
+    gender = models.CharField(max_length=50, choices=SEX, default="Другое", verbose_name='Пол')
     phone = models.CharField(max_length=20, validators=[val.validate_phone], verbose_name='Номер телефона')
     school = models.CharField(max_length=100, verbose_name='Школа')
     university = models.CharField(max_length=100, verbose_name='Университет')
