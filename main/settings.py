@@ -96,7 +96,7 @@ AUTH_USER_MODEL = "users.User"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default='postgres://admin:KzudQ3uDEZWoGNNEAhtIWamS4XsVQB4n@dpg-co4he0n79t8c7392h8lg-a/ort_postgres')
+    'default': dj_database_url.config(default='postgres://admin:KzudQ3uDEZWoGNNEAhtIWamS4XsVQB4n@dpg-co4he0n79t8c7392h8lg-a.oregon-postgres.render.com/ort_postgres')
 }
 
 
