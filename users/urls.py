@@ -8,5 +8,5 @@ urlpatterns = [
 
     path('profile/create', v.ProfileCreateAPIView.as_view()),
     path('profile', v.ProfileDetailAPIView.as_view()),
-    path('students/', v.StudentList.as_view(), name='student-list'),
+    path('students', v.StudentList.as_view()),
 ]
