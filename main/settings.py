@@ -28,11 +28,15 @@ DEBUG = True
 ALLOWED_HOSTS = ['breaddev.pythonanywhere.com',
                  '127.0.0.1',
                  "192.168.0.107",
-                 "ort-deploy.onrender.com"
+                 "ort-deploy.onrender.com",
+                 'a80e-185-117-151-78.ngrok-free.app',
+                 'easy-completely-whale.ngrok-free.app',
                  ]
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000"
 ]
+
+CSRF_TRUSTED_ORIGINS = ['https://easy-completely-whale.ngrok-free.app']
 CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
@@ -65,6 +69,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
 ]
 
 ROOT_URLCONF = 'main.urls'
@@ -136,7 +141,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'UTC'
 

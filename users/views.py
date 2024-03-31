@@ -1,8 +1,12 @@
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 
 from rest_framework import permissions, generics, status, views
 from . import models as m, serializers as s
+from .models import User
+from .permissions import IsTeacher
+from .serializers import UserSerializer
 
 
 class RegisterAPIView(generics.CreateAPIView):
@@ -18,6 +22,11 @@ class RegisterAPIView(generics.CreateAPIView):
             {
                 'message': 'Пользователь успешно зарегистрировался',
                 'access_token': str(AccessToken.for_user(user)),
+                'firstname': str(user.firstname),
+                'lastname': str(user.lastname),
+                'email': str(user.email),
+                'role': str(user.role),
+                'id': str(user.id),
                 'refresh_token': str(RefreshToken.for_user(user)),
             }, status=status.HTTP_201_CREATED
         )
@@ -92,7 +101,10 @@ class ProfileCreateAPIView(generics.CreateAPIView):
             {**serializer.validated_data},
             status=status.HTTP_201_CREATED
         )
-
+class StudentList(generics.ListAPIView):
+    queryset = User.objects.filter(role='Студент')
+    serializer_class = UserSerializer
+    permission_classes = [IsTeacher]
 
 class ProfileDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = m.Profile.objects.all()

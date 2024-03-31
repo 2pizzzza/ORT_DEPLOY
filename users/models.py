@@ -25,12 +25,12 @@ class User(AbstractUser):
         ('Студент', 'Студент')
     )
 
-    firstname = models.CharField(max_length=150)
-    lastname = models.CharField(max_length=150)
-    patronymic = models.CharField(max_length=150)
-    password = models.CharField(max_length=128)
+    firstname = models.CharField(max_length=150, verbose_name='Имя')
+    lastname = models.CharField(max_length=150, verbose_name='Фамилия')
+    patronymic = models.CharField(max_length=150, verbose_name='отчество')
+    password = models.CharField(max_length=128, verbose_name='Пароль')
     email = models.EmailField(unique=True)
-    role = models.CharField(max_length=100, choices=ROLES, default=ROLES[1][1], null=True)
+    role = models.CharField(max_length=100, choices=ROLES, default=ROLES[1][1], null=True, verbose_name='Роль')
 
     username = None
     first_name = None
@@ -67,15 +67,15 @@ class Profile(models.Model):
         ('Женский', 'Женский'),
     )
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    language = models.CharField(max_length=50, choices=LANGUAGES)
-    _class = models.CharField(max_length=4, validators=[val.validate_class])
-    age = models.PositiveIntegerField()
-    sex = models.CharField(max_length=50, choices=SEX)
-    phone = models.CharField(max_length=20, validators=[val.validate_phone])
-    school = models.CharField(max_length=100)
-    university = models.CharField(max_length=100)
-    specialization = models.CharField(max_length=100)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile', verbose_name='Пользователь')
+    language = models.CharField(max_length=50, choices=LANGUAGES, verbose_name='Язык')
+    _class = models.CharField(max_length=4, validators=[val.validate_class], verbose_name='Класс')
+    age = models.PositiveIntegerField(verbose_name="Возраст")
+    sex = models.CharField(max_length=50, choices=SEX, verbose_name='Пол')
+    phone = models.CharField(max_length=20, validators=[val.validate_phone], verbose_name='Номер телефона')
+    school = models.CharField(max_length=100, verbose_name='Школа')
+    university = models.CharField(max_length=100, verbose_name='Университет')
+    specialization = models.CharField(max_length=100, verbose_name='Специальзация')
 
     class Meta:
         db_table = 'profile'

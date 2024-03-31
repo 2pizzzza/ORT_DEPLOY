@@ -28,7 +28,11 @@ class VideoListAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         course_id = self.kwargs.get('pk')
+        user = self.request.user
         queryset = m.Video.objects.filter(course=course_id)
+
+        if user.is_authenticated:
+            queryset = queryset.exclude(test__testuser__user=user)
         return queryset
 
 

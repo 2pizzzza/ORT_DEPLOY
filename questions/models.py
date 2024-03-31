@@ -4,8 +4,8 @@ from my_tests import models as m
 
 
 class Question(models.Model):
-    title = models.CharField(max_length=255)
-    test = models.ForeignKey(m.Test, on_delete=models.CASCADE, related_name='questions')
+    title = models.CharField(max_length=255, verbose_name='Вопрос')
+    test = models.ForeignKey(m.Test, on_delete=models.CASCADE, related_name='questions', verbose_name='Тест')
 
     class Meta:
         db_table = 'questions'
@@ -17,9 +17,9 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
-    title = models.CharField(max_length=255)
-    correct = models.BooleanField(default=False)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
+    title = models.CharField(max_length=255, verbose_name='Ответ')
+    correct = models.BooleanField(default=False, verbose_name='Правильный ответ')
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers', verbose_name='Вопрос')
 
     class Meta:
         db_table = 'answers'

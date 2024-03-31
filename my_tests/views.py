@@ -25,6 +25,10 @@ class TestListAPIView(generics.ListAPIView):
     def get_queryset(self):
         course_id = self.kwargs.get('pk')
         queryset = m.Test.objects.filter(course=course_id)
+
+        if self.request.user.is_authenticated:
+            user = self.request.user
+            queryset = queryset.exclude(testuser__user=user)
         return queryset
 
     def get(self, request, *args, **kwargs):
@@ -32,7 +36,6 @@ class TestListAPIView(generics.ListAPIView):
         tests = m.Test.objects.filter(course=course_id)
         user = request.user
 
-        # Get the tests that the user has not finished
         unfinished_tests = [
             test for test in tests
             if not m.TestUser.objects.filter(test=test, user=user).exists()
@@ -61,13 +64,10 @@ class TestUserCreateAPIView(generics.CreateAPIView):
         data = request.data
         data['user'] = request.user.id
 
-        # Получаем объект пользователя
         user = request.user
 
-        # Получаем объект теста
         test = get_object_or_404(m.Test, pk=data['test'])
 
-        # Проверяем, смотрел ли пользователь видео и соответствует ли тест из видео переданному тесту
         if user in test.video.user_watched.all() and test == test.video.test:
             r_answers = data['right_answers']
             questions = test.questions.count()

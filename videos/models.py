@@ -8,12 +8,12 @@ from users.models import User
 
 
 class Video(models.Model):
-    title = models.CharField(max_length=100)
-    description = models.TextField()
-    video = models.FileField(upload_to=TEST_VIDEO_FOLDER, validators=[FileExtensionValidator(allowed_extensions=['mp4'])])
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    user_watched = models.ManyToManyField(User, related_name='watched_videos', blank=True)
-    test = models.OneToOneField(Test, on_delete=models.CASCADE, related_name='video', blank=True, null=True)
+    title = models.CharField(max_length=100, verbose_name="Заголовок")
+    description = models.TextField(verbose_name="Описание")
+    video = models.FileField(upload_to=TEST_VIDEO_FOLDER, validators=[FileExtensionValidator(allowed_extensions=['mp4'])], verbose_name="Видео")
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="Курс")
+    user_watched = models.ManyToManyField(User, related_name='watched_videos', blank=True, verbose_name="Просмотревшие")
+    test = models.OneToOneField(Test, on_delete=models.CASCADE, related_name='video', blank=True, null=True, verbose_name="Тест к видео")
 
     class Meta:
         db_table = 'video'
