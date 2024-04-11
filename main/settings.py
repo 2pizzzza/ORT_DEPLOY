@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['breaddev.pythonanywhere.com',
                  "192.168.0.107",
                  "ort-deploy.onrender.com",
                  'localhost',
+                 'easy-completely-whale.ngrok-free.app',
                  ]
 # CORS_ALLOWED_ORIGINS = [
 #     "http://localhost:3000",
@@ -167,6 +168,8 @@ MEDIA_ROOT = 'media/'
 
 NEWS_IMAGE_FOLDER = 'news/images'
 TEST_VIDEO_FOLDER = 'tests/videos'
+QUESTIONS_VIDEO_FOLDER = 'tests/images'
+ANSWER_VIDEO_FOLDER = 'tests/answer'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 

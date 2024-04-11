@@ -1,11 +1,14 @@
 from django.db import models
 
 from my_tests import models as m
+from main.settings import ANSWER_VIDEO_FOLDER, QUESTIONS_VIDEO_FOLDER
+
 
 
 class Question(models.Model):
     title = models.CharField(max_length=255, verbose_name='Вопрос')
     test = models.ForeignKey(m.Test, on_delete=models.CASCADE, related_name='questions', verbose_name='Тест')
+    photo = models.ImageField(upload_to=QUESTIONS_VIDEO_FOLDER, verbose_name='Фото', null=True, blank=True)
 
     class Meta:
         db_table = 'questions'
@@ -20,6 +23,7 @@ class Answer(models.Model):
     title = models.CharField(max_length=255, verbose_name='Ответ')
     correct = models.BooleanField(default=False, verbose_name='Правильный ответ')
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers', verbose_name='Вопрос')
+    photo = models.ImageField(upload_to=ANSWER_VIDEO_FOLDER, verbose_name='Фото', null=True, blank=True)
 
     class Meta:
         db_table = 'answers'
